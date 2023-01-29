@@ -11,7 +11,6 @@ import ru.rmatyuk.parsemoto.entity.motoOnline.*
 import ru.rmatyuk.parsemoto.enums.TypePhoto
 import ru.rmatyuk.parsemoto.repository.motoOnline.MotoOnlineRepository
 import ru.rmatyuk.parsemoto.service.*
-import java.util.*
 
 @Component
 class MotoOnlineService(
@@ -34,7 +33,7 @@ class MotoOnlineService(
             try {
                 motoOnlineRepository.deleteByUrl(it.url!!)
                 if (it.new != null) {
-                    var motoEntity = it.toMotoOnlineEntity()
+                    val motoEntity = it.toMotoOnlineEntity()
 
                     val commonFiled = commonService.saveCommonFiled(it.auction!!, it.status!!, it.mark!!, it.model!!)
                     motoEntity.mark = commonFiled.mark
