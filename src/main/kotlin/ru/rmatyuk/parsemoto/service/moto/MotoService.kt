@@ -1,9 +1,12 @@
 package ru.rmatyuk.parsemoto.service.moto
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import ru.rmatyuk.parsemoto.dto.MotoAdditionalInfoDto
 import ru.rmatyuk.parsemoto.dto.MotoDto
 import ru.rmatyuk.parsemoto.entity.AuctionEntity
 import ru.rmatyuk.parsemoto.entity.MarkEntity
@@ -17,14 +20,10 @@ import ru.rmatyuk.parsemoto.service.motoOnline.MotoOnlineService
 
 @Component
 class MotoService(motoRepository: MotoRepository, motoPhotoService: MotoPhotoService,
-                  motoAdditionalInfoService: MotoAdditionalInfoService,
-                  motoAdditionalInfoAuctionService: MotoAdditionalInfoAuctionService,
                   commonService: CommonService) {
 
     private final val motoRepository: MotoRepository
     private final val motoPhotoService: MotoPhotoService
-    private final val motoAdditionalInfoService: MotoAdditionalInfoService
-    private final val motoAdditionalInfoAuctionService: MotoAdditionalInfoAuctionService
     private final val commonService: CommonService
 
     var logger: Logger = LoggerFactory.getLogger(MotoService::class.java)
@@ -32,8 +31,6 @@ class MotoService(motoRepository: MotoRepository, motoPhotoService: MotoPhotoSer
     init {
         this.motoRepository = motoRepository
         this.motoPhotoService = motoPhotoService
-        this.motoAdditionalInfoService = motoAdditionalInfoService
-        this.motoAdditionalInfoAuctionService = motoAdditionalInfoAuctionService
         this.commonService = commonService
     }
 
@@ -50,12 +47,11 @@ class MotoService(motoRepository: MotoRepository, motoPhotoService: MotoPhotoSer
                     motoEntity.model = commonFiled.model
                     motoEntity.auction = commonFiled.auction
                     motoEntity.status = commonFiled.status
+                    motoEntity.additionalInfoJson = Json.encodeToString(it.additionalInfo)
+                    motoEntity.additionalInfoAuctionJson = Json.encodeToString(it.additionalInfoAuction)
 
                     motoEntity = motoRepository.save(motoEntity)
-
                     motoPhotoService.saveAll(it.photos, motoEntity)
-                    motoAdditionalInfoService.saveAll(it.additionalInfo, motoEntity)
-                    motoAdditionalInfoAuctionService.saveAll(it.additionalInfoAuction, motoEntity)
                     countSave++
                     logger.info("Moto save with url ${motoEntity.url}")
                 } else {

@@ -33,10 +33,17 @@ class TestController(siteParser: SiteParser, motoOnlineService: MotoOnlineServic
     }
 
 
-    @GetMapping("/test")
-    fun all(@RequestParam startPage: Int, @RequestParam countPage: Int): String {
+    @GetMapping("/history-auction")
+    fun history(@RequestParam startPage: Int, @RequestParam countPage: Int): String {
         taskService.historyAuction(startPage, countPage)
         return "ОК"
     }
+
+    @GetMapping("/online-auction")
+    fun online(@RequestParam startPage: Int, @RequestParam countPage: Int): String {
+        taskService.onlineAuction(startPage, countPage)
+        return "ОК"
+    }
+
 
 }

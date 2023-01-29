@@ -4,7 +4,6 @@ import jakarta.persistence.*
 import ru.rmatyuk.parsemoto.entity.moto.MotoEntity
 import ru.rmatyuk.parsemoto.entity.motoOnline.MotoOnlineEntity
 import java.util.Collections.emptyList
-@kotlinx.serialization.Serializable
 @Entity
 @Table(name = "model")
 class ModelEntity(

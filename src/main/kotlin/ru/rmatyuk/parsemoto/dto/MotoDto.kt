@@ -2,7 +2,9 @@ package ru.rmatyuk.parsemoto.dto
 
 import java.time.LocalDate
 import java.util.*
+import kotlinx.serialization.*
 
+@Serializable
 class MotoDto (
         var lotNumber: String? = "",
         var mark: String? = "",
@@ -11,6 +13,7 @@ class MotoDto (
         var new: Boolean? = null,
         var photos: MutableList<MotoPhotoDto> = Collections.emptyList(),
         var auction: String? = null,
+        @Contextual
         var dataAuction: LocalDate? = null,
         var year: Int? = null,
         var power: Int? = null,

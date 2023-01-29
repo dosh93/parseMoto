@@ -18,7 +18,7 @@ class TaskService(motoOnlineService: MotoOnlineService, motoService: MotoService
     private final val siteParser: SiteParser
     private final val configUrl: ConfigUrl
 
-    var logger: Logger = LoggerFactory.getLogger(TestController::class.java)
+    var logger: Logger = LoggerFactory.getLogger(TaskService::class.java)
 
     val urlTemplateOnline = configUrl.urlTemplateOnline
     val urlTemplateHistory = configUrl.urlTemplateHistory

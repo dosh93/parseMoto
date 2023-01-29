@@ -1,5 +1,7 @@
 package ru.rmatyuk.parsemoto.service.motoOnline
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -18,22 +20,16 @@ import java.util.*
 @Component
 class MotoOnlineService(
         motoOnlineRepository: MotoOnlineRepository, motoPhotoOnlineService: MotoPhotoOnlineService,
-        motoOnlineAdditionalInfoService: MotoOnlineAdditionalInfoService,
-        motoOnlineAdditionalInfoAuctionService: MotoOnlineAdditionalInfoAuctionService,
         commonService: CommonService
 ) {
     private final val motoOnlineRepository: MotoOnlineRepository
     private final val motoPhotoOnlineService: MotoPhotoOnlineService
-    private final val motoOnlineAdditionalInfoService: MotoOnlineAdditionalInfoService
-    private final val motoOnlineAdditionalInfoAuctionService: MotoOnlineAdditionalInfoAuctionService
     private final val commonService: CommonService
     var logger: Logger = LoggerFactory.getLogger(MotoOnlineService::class.java)
 
     init {
         this.motoOnlineRepository = motoOnlineRepository
         this.motoPhotoOnlineService = motoPhotoOnlineService
-        this.motoOnlineAdditionalInfoService = motoOnlineAdditionalInfoService
-        this.motoOnlineAdditionalInfoAuctionService = motoOnlineAdditionalInfoAuctionService
         this.commonService = commonService
     }
 
@@ -52,11 +48,11 @@ class MotoOnlineService(
                     motoEntity.auction = commonFiled.auction
                     motoEntity.status = commonFiled.status
 
+                    motoEntity.additionalInfoJson = Json.encodeToString(it.additionalInfo)
+                    motoEntity.additionalInfoAuctionJson = Json.encodeToString(it.additionalInfoAuction)
                     motoEntity = motoOnlineRepository.save(motoEntity)
 
                     motoPhotoOnlineService.saveAll(it.photos, motoEntity)
-                    motoOnlineAdditionalInfoService.saveAll(it.additionalInfo, motoEntity)
-                    motoOnlineAdditionalInfoAuctionService.saveAll(it.additionalInfoAuction, motoEntity)
                     countSave++
                     logger.info("Moto save with url ${motoEntity.url}")
                 } else {
@@ -86,39 +82,12 @@ class MotoOnlineService(
                 this.auction!!.name, this.dataAuction!!, this.year, this.power, this.frameNumber, this.mileage,
                 this.grade, this.startPriceJpy, this.startPriceRub, this.endPriceJpy, this.endPriceRub,
                 this.status!!.name, this.vendorCode, this.engineGrade, this.electronicsGrade, this.frameGrade,
-                this.appearanceGrade, this.frontGrade, this.rearGrade, this.additionalInfo.toMotoAdditionalInfoDto(),
-                this.additionalInfoAuction.toMotoAdditionalInfoAuctionDto(),
+                this.appearanceGrade, this.frontGrade, this.rearGrade,
         )
     }
 
     fun MutableList<MotoPhotoOnlineEntity>.toMotoPhotoDto(): MutableList<MotoPhotoDto> {
         return this.map { MotoPhotoDto(it.urlMain, it.typePhoto) }.toMutableList()
-    }
-
-    fun MutableList<MotoOnlineAdditionalInfoEntity>.toMotoAdditionalInfoDto(): MutableList<MotoAdditionalInfoDto> {
-        return this.map {
-            MotoAdditionalInfoDto(it.name, it.grade,
-                    it.infoValues.toMotoAdditionalInfoValueDto(), it.photos.toMotoAdditionalInfoPhotoDto())
-        }
-                .toMutableList()
-    }
-
-    fun MutableList<MotoOnlineAdditionalInfoValueEntity>.toMotoAdditionalInfoValueDto(): MutableList<MotoAdditionalInfoValueDto> {
-        return this.map { MotoAdditionalInfoValueDto(it.name, it.description) }.toMutableList()
-    }
-
-    fun MutableList<MotoOnlineAdditionalInfoPhotoEntity>.toMotoAdditionalInfoPhotoDto(): MutableList<MotoAdditionalInfoPhotoDto> {
-        return this.map { MotoAdditionalInfoPhotoDto(it.urlMain) }.toMutableList()
-    }
-
-    fun MutableList<MotoOnlineAdditionalInfoAuctionEntity>.toMotoAdditionalInfoAuctionDto(): MutableList<MotoAdditionalInfoAuctionDto> {
-        return this.map {
-            MotoAdditionalInfoAuctionDto(it.name, it.description, it.infoValues.toMotoAdditionalInfoAuctionValueDto()) }
-                .toMutableList()
-    }
-
-    fun MutableList<MotoOnlineAdditionalInfoAuctionValueEntity>.toMotoAdditionalInfoAuctionValueDto(): MutableList<MotoAdditionalInfoAuctionValueDto> {
-        return this.map { MotoAdditionalInfoAuctionValueDto(it.name, it.description) }.toMutableList()
     }
 
     @Transactional

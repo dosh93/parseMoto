@@ -47,10 +47,10 @@ class MotoOnlineEntity(
         @ManyToOne
         @JoinColumn(name = "status_id")
         var status: StatusEntity? = null,
+        @Column(columnDefinition = "TEXT")
+        var additionalInfoJson: String? = null,
+        @Column(columnDefinition = "TEXT")
+        var additionalInfoAuctionJson: String? = null,
         @OneToMany(mappedBy = "moto", cascade = [CascadeType.REMOVE])
         var photos: MutableList<MotoPhotoOnlineEntity> = Collections.emptyList(),
-        @OneToMany(mappedBy = "moto", cascade = [CascadeType.REMOVE])
-        var additionalInfo: MutableList<MotoOnlineAdditionalInfoEntity> = Collections.emptyList(),
-        @OneToMany(mappedBy = "moto", cascade = [CascadeType.REMOVE])
-        var additionalInfoAuction: MutableList<MotoOnlineAdditionalInfoAuctionEntity> = Collections.emptyList(),
 )

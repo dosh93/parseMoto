@@ -36,6 +36,12 @@ class OnApplicationStartUp(configRepository: ConfigRepository) {
         if (configRepository.findById("count_page_online_auction").isEmpty) {
             allConfig.add(ConfigEntity("count_page_online_auction", "Количество страниц онлайн аукциона"))
         }
+        if (configRepository.findById("enabled_task_online_auction").isEmpty) {
+            allConfig.add(ConfigEntity("enabled_task_online_auction", "Включено парсик онлайн аукциона", "true"))
+        }
+        if (configRepository.findById("enabled_task_history_auction").isEmpty) {
+            allConfig.add(ConfigEntity("enabled_task_history_auction", "Включено парсик истории аукциона", "true"))
+        }
         configRepository.saveAll(allConfig)
     }
 }

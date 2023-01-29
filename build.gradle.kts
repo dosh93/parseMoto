@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.8.0"
 	kotlin("plugin.spring") version "1.8.0"
 	kotlin("plugin.jpa") version "1.8.0"
+	kotlin("plugin.serialization") version "1.8.0"
 }
 
 group = "ru.rmatyuk"
@@ -17,6 +18,7 @@ repositories {
 }
 
 dependencies {
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jsoup:jsoup:1.15.3")

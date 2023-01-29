@@ -47,8 +47,8 @@ class MotoEntity(
         var status: StatusEntity? = null,
         @OneToMany(mappedBy = "moto")
         var photos: MutableList<MotoPhotoEntity> = Collections.emptyList(),
-        @OneToMany(mappedBy = "moto")
-        var additionalInfo: MutableList<MotoAdditionalInfoEntity> = Collections.emptyList(),
-        @OneToMany(mappedBy = "moto")
-        var additionalInfoAuction: MutableList<MotoAdditionalInfoAuctionEntity> = Collections.emptyList(),
+        @Column(columnDefinition = "TEXT")
+        var additionalInfoJson: String? = null,
+        @Column(columnDefinition = "TEXT")
+        var additionalInfoAuctionJson: String? = null,
 )

@@ -18,23 +18,27 @@ class Scheduled(taskService: TaskService, configRepository: ConfigRepository) {
 
     @Scheduled(cron = "#{@getCronOnlineAuction}")
     fun scheduledSaveOnlineAuction() {
-        val startPage = configRepository.findById("start_page_online_auction").get().configValue!!.toInt()
-        val countPage = configRepository.findById("count_page_online_auction").get().configValue
-        if (countPage == null) {
-            taskService.onlineAuction(startPage)
-        } else {
-            taskService.onlineAuction(startPage, countPage.toInt())
+        if (configRepository.findById("enabled_task_online_auction").get().configValue.toBoolean()) {
+            val startPage = configRepository.findById("start_page_online_auction").get().configValue!!.toInt()
+            val countPage = configRepository.findById("count_page_online_auction").get().configValue
+            if (countPage == null) {
+                taskService.onlineAuction(startPage)
+            } else {
+                taskService.onlineAuction(startPage, countPage.toInt())
+            }
         }
     }
 
     @Scheduled(cron = "#{@getCronHistoryAuction}")
     fun scheduledSaveHistoryAuction() {
-        val startPage = configRepository.findById("start_page_history_auction").get().configValue!!.toInt()
-        val countPage = configRepository.findById("count_page_history_auction").get().configValue
-        if (countPage == null) {
-            taskService.historyAuction(startPage)
-        } else {
-            taskService.historyAuction(startPage, countPage.toInt())
+        if (configRepository.findById("enabled_task_history_auction").get().configValue.toBoolean()) {
+            val startPage = configRepository.findById("start_page_history_auction").get().configValue!!.toInt()
+            val countPage = configRepository.findById("count_page_history_auction").get().configValue
+            if (countPage == null) {
+                taskService.historyAuction(startPage)
+            } else {
+                taskService.historyAuction(startPage, countPage.toInt())
+            }
         }
     }
 }

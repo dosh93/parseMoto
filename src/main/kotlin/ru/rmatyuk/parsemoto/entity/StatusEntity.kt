@@ -3,7 +3,6 @@ package ru.rmatyuk.parsemoto.entity
 import jakarta.persistence.*
 import ru.rmatyuk.parsemoto.entity.moto.MotoEntity
 import java.util.Collections.emptyList
-@kotlinx.serialization.Serializable
 @Entity
 @Table(name = "status")
 class StatusEntity(
