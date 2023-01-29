@@ -51,6 +51,8 @@ class MotoOnlineEntity(
         var additionalInfoJson: String? = null,
         @Column(columnDefinition = "TEXT")
         var additionalInfoAuctionJson: String? = null,
-        @OneToMany(mappedBy = "moto", cascade = [CascadeType.REMOVE])
-        var photos: MutableList<MotoPhotoOnlineEntity> = Collections.emptyList(),
+        @Column(columnDefinition = "TEXT")
+        var photosMainJson: String? = null,
+        @Column(columnDefinition = "TEXT")
+        var photosPreview: String? = null,
 )

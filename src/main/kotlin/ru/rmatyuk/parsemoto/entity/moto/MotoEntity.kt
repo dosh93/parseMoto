@@ -45,10 +45,12 @@ class MotoEntity(
         @ManyToOne
         @JoinColumn(name = "status_id")
         var status: StatusEntity? = null,
-        @OneToMany(mappedBy = "moto")
-        var photos: MutableList<MotoPhotoEntity> = Collections.emptyList(),
         @Column(columnDefinition = "TEXT")
         var additionalInfoJson: String? = null,
         @Column(columnDefinition = "TEXT")
         var additionalInfoAuctionJson: String? = null,
+        @Column(columnDefinition = "TEXT")
+        var photosMainJson: String? = null,
+        @Column(columnDefinition = "TEXT")
+        var photosPreview: String? = null,
 )
