@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/moto
+    username: root
+    password: a2jcyccz4
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
